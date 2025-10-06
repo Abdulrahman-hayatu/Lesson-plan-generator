@@ -55,7 +55,10 @@ def generate_lesson_plan(topic: str, grade_level: Optional[str] = None) -> str:
             ],
         )
         
-        return completion.choices[0].message.content
+        content = completion.choices[0].message.content
+        if content is None:
+            raise HTTPException(status_code=500, detail="Failed to generate lesson plan: No content received from AI")
+        return content
     
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error generating lesson plan: {str(e)}")
