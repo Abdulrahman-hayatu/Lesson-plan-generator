@@ -43,7 +43,7 @@ def generate_lesson_plan(topic: str, grade_level: Optional[str] = None) -> str:
         prompt = f"Generate a comprehensive lesson plan for {topic}"
         if grade_level:
             prompt = f"Generate a comprehensive lesson plan for {grade_level} on {topic}"
-        prompt += ", include two exam questions from the generated lesson plan."
+        prompt += ", include two exam questions from the generated lesson plan. Ensure you do not bold any text in your response"
         
         completion = client.chat.completions.create(
             model="meta-llama/Llama-3.1-8B-Instruct:fireworks-ai",
