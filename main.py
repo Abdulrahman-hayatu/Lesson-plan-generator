@@ -1,8 +1,7 @@
 import os
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.staticfiles import StaticFiles
-from fastapi.responses import HTMLResponse, FileResponse
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
 from openai import OpenAI
 from typing import Optional
@@ -28,7 +27,7 @@ class LessonPlanRequest(BaseModel):
 class LessonPlanResponse(BaseModel):
     lesson_plan: str
     topic: str
-    
+
 def generate_lesson_plan(topic: str, grade_level: Optional[str] = None) -> str:
     hf_token = os.environ.get("HF_TOKEN")
     if not hf_token:
@@ -48,10 +47,7 @@ def generate_lesson_plan(topic: str, grade_level: Optional[str] = None) -> str:
         completion = client.chat.completions.create(
             model="meta-llama/Llama-3.1-8B-Instruct:fireworks-ai",
             messages=[
-                {
-                    "role": "user",
-                    "content": prompt
-                }
+                {"role": "user", "content": prompt}
             ],
         )
         
@@ -63,15 +59,25 @@ def generate_lesson_plan(topic: str, grade_level: Optional[str] = None) -> str:
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error generating lesson plan: {str(e)}")
 
+@app.get("/", response_class=JSONResponse)
+async def root():
+    """Root endpoint that returns JSON instead of HTML."""
+    return JSONResponse(
+        content={
+            "message": "Welcome to the Lesson Plan Generator API!",
+            "description": "Use the /api/generate-lesson-plan endpoint to generate lesson plans.",
+            "example_request": {
+                "topic": "Photosynthesis",
+                "grade_level": "5th grade"
+            },
+            "example_endpoint": "/api/generate-lesson-plan"
+        }
+    )
+
 @app.post("/api/generate-lesson-plan", response_model=LessonPlanResponse)
 async def create_lesson_plan(request: LessonPlanRequest):
     """
     Generate a lesson plan for the given topic.
-    
-    - **topic**: The topic for the lesson plan (required, 1-500 characters)
-    - **grade_level**: Optional grade level specification (e.g., "5th grade")
-    
-    Returns a structured lesson plan with exam questions.
     """
     if not request.topic.strip():
         raise HTTPException(status_code=400, detail="Topic cannot be empty")
