@@ -113,7 +113,7 @@ async def api_documentation():
         "interactive_docs": "/docs"
     }
 
-@app.get("/plain-text", response_class=HTMLResponse)
+@app.get("/", response_class=HTMLResponse)
 async def read_root():
     try:
         with open("static/index.html", "r") as f:
@@ -127,25 +127,5 @@ async def read_root():
             </body>
         </html>
         """
-
-@app.get("/")
-async def read_root():
-    try:
-        # Optional: read the file if you still want to check for it
-        with open("static/index.html", "r") as f:
-            message = "Lesson Plan Generator frontend is available."
-    except FileNotFoundError:
-        message = "Lesson Plan Generator frontend is being set up."
-
-    return JSONResponse(
-        content={
-            "app_name": "Lesson Plan Generator API",
-            "status": "running",
-            "version": "1.0.0",
-            "message": message,
-            "docs_url": "/docs",
-            "generate_endpoint": "/api/generate-lesson-plan"
-        }
-    )
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
