@@ -70,7 +70,8 @@ def generate_lesson_plan(topic: str, grade_level: Optional[str] = None) -> str:
         )
         
         content = completion.choices[0].message.content
-            structured = parse_lesson_plan(content)
+        structured = parse_lesson_plan(content)
+        
         if content is None:
             raise HTTPException(status_code=500, detail="Failed to generate lesson plan: No content received from AI")
         return JSONResponse(content={"topic": request.topic.strip(), **structured})
