@@ -119,19 +119,19 @@ async def api_documentation():
         "interactive_docs": "/docs"
     }
 
-@app.get("/", response_class=HTMLResponse)
-async def read_root():
-    try:
-        with open("static/index.html", "r") as f:
-            return f.read()
-    except FileNotFoundError:
-        return """
-        <html>
-            <body>
-                <h1>Lesson Plan Generator</h1>
-                <p>Frontend is being set up...</p>
-            </body>
-        </html>
-        """
+# @app.get("/", response_class=HTMLResponse)
+# async def read_root():
+#     try:
+#         with open("static/index.html", "r") as f:
+#             return f.read()
+#     except FileNotFoundError:
+#         return """
+#         <html>
+#             <body>
+#                 <h1>Lesson Plan Generator</h1>
+#                 <p>Frontend is being set up...</p>
+#             </body>
+#         </html>
+#         """
 
-app.mount("/static", StaticFiles(directory="static"), name="static")
+# app.mount("/static", StaticFiles(directory="static"), name="static")
