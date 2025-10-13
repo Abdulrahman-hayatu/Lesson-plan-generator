@@ -5,6 +5,7 @@ from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
 from openai import OpenAI
 from typing import Optional
+import re
 
 app = FastAPI(
     title="Lesson Plan Generator API",
