@@ -28,6 +28,24 @@ class LessonPlanResponse(BaseModel):
     lesson_plan: str
     topic: str
 
+def parse_lesson_plan(content: str) -> dict:
+    """Extracts structured components from the lesson plan text."""
+    def extract(section):
+        match = re.search(rf"{section}:(.*?)(?=\n[A-Z]|$)", content, re.S)
+        return match.group(1).strip() if match else None
+    
+    return {
+        "title": extract("Lesson Title"),
+        "grade_level": extract("Grade Level"),
+        "objectives": extract("Objectives"),
+        "materials": extract("Materials"),
+        "lesson_plan": extract("Lesson Plan"),
+        "assessment": extract("Assessment"),
+        "exam_questions": extract("Exam Questions"),
+        "raw_text": content.strip()
+    }
+
+
 def generate_lesson_plan(topic: str, grade_level: Optional[str] = None) -> str:
     hf_token = os.environ.get("HF_TOKEN")
     if not hf_token:
@@ -52,9 +70,10 @@ def generate_lesson_plan(topic: str, grade_level: Optional[str] = None) -> str:
         )
         
         content = completion.choices[0].message.content
+            structured = parse_lesson_plan(content)
         if content is None:
             raise HTTPException(status_code=500, detail="Failed to generate lesson plan: No content received from AI")
-        return content
+        return JSONResponse(content={"topic": request.topic.strip(), **structured})
     
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error generating lesson plan: {str(e)}")
