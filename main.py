@@ -74,10 +74,10 @@ def parse_lesson_plan(content: str) -> dict:
         "grade_level": extract("Grade Level"),
         "objectives": extract("Objectives"),
         "materials": extract("Materials"),
-        "lesson_plan": extract("Lesson Plan"),
+        "lesson_plan":  content,
         "assessment": extract("Assessment"),
         "exam_questions": extract("Exam Questions"),
-        "raw_text": content
+        # "raw_text": content
     }
 
 # ---------------------- ROUTES ----------------------
