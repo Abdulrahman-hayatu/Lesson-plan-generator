@@ -44,7 +44,7 @@ def generate_lesson_plan(topic: str, grade_level: Optional[str] = None) -> str:
         if grade_level:
             prompt = f"Generate a comprehensive lesson plan for {grade_level} on {topic}"
         prompt += ", include two exam questions from the generated lesson plan."
-        prompt += ", Ensure your response is in JSON format, do not include reduntant text ensure only the lesson plan is returned"
+        prompt += ", Ensure your response is in a well structured format, do not include reduntant text ensure only the lesson plan is returned"
         
         completion = client.chat.completions.create(
             model="deepseek-ai/DeepSeek-R1:novita",
