@@ -2,7 +2,7 @@
 
 ## Overview
 
-The Lesson Plan Generator is an AI-powered web application that creates comprehensive lesson plans for any topic. It uses FastAPI for the backend API and a vanilla HTML/CSS/JavaScript frontend with Tailwind CSS for styling. The application leverages the Hugging Face API (specifically Meta's Llama 3.1 model) to generate educational content including lesson plans and exam questions based on user-provided topics and optional grade levels.
+The Lesson Plan Generator is an AI-powered web application that creates comprehensive lesson plans for any topic. It uses FastAPI for the backend API and a vanilla HTML/CSS/JavaScript frontend with Tailwind CSS for styling. The application leverages the Hugging Face API (specifically deepseek R1:novita model) to generate educational content including lesson plans and exam questions based on user-provided topics and optional grade levels.
 
 **Features:**
 - User-friendly web interface with topic and grade level input
@@ -49,7 +49,7 @@ Preferred communication style: Simple, everyday language.
 - **Hugging Face Router API**: Primary AI service for generating lesson plans
   - Endpoint: `https://router.huggingface.co/v1`
   - Authentication: Token-based (HF_TOKEN environment variable)
-  - Model: `meta-llama/Llama-3.1-8B-Instruct:fireworks-ai`
+  - Model: `deepseek-ai/DeepSeek-R1:novita`
 
 ### Python Libraries
 - **FastAPI**: Web framework for building the API
