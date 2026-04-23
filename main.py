@@ -47,7 +47,7 @@ def generate_lesson_plan(topic: str, grade_level: Optional[str] = None) -> str:
         prompt += ", Ensure your response is in JSON format, do not include reduntant text ensure only the lesson plan is returned"
         
         completion = client.chat.completions.create(
-            model="meta-llama/Llama-3.1-8B-Instruct:fireworks-ai",
+            model="deepseek-ai/DeepSeek-R1:novita",
             messages=[
                 {
                     "role": "user",
